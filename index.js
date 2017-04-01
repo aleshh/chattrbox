@@ -4,8 +4,12 @@ var extract = require('./extract');
 
 var handleError = function(err, res) {
   res.writeHead(404);
-  res.end('Error: not found!');
-}
+  // res.end('Error: not found!');
+  fs.readFile('app/error.html', function (err, data) {
+    // res.end(err);
+    res.end(data);
+  });
+};
 
 var server = http.createServer(function(req, res) {
   console.log('Responding to a request.');
@@ -14,9 +18,7 @@ var server = http.createServer(function(req, res) {
 
   var filePath = extract(req.url);
   fs.readFile(filePath, function(err, data) {
-    console.log('pre-error');
     if (err) {
-      console.log('error');
       handleError(err, res);
       return;
     } else {

@@ -4,11 +4,11 @@ var extract = require('./extract');
 
 var handleError = function(err, res) {
   res.writeHead(404);
-  // res.end('Error: not found!');
-  fs.readFile('app/error.html', function (err, data) {
-    // res.end(err);
-    res.end(data);
-  });
+  res.end('Error: not found!');
+  // fs.readFile('app/error.html', function (err, data) {
+  //   // res.end(err);
+  //   res.end(data);
+  // });
 };
 
 var server = http.createServer(function(req, res) {
@@ -22,6 +22,7 @@ var server = http.createServer(function(req, res) {
       handleError(err, res);
       return;
     } else {
+      // res.setHeader('Content-Type', 'text/html');
       res.end(data);
     }
   });

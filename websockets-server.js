@@ -11,17 +11,28 @@ console.log('websockets server started');
 ws.on('connection', function(socket) {
   console.log('client connection establisehd');
 
-  messages.forEach(function(msg) {
-    socket.send(msg);
-  });
-
   socket.on('message', function(data) {
-    console.log('messsage received: ' + data);
-    messages.push(data);
-    ws.clients.forEach(function(clientSocket) {
-      clientSocket.send(data);
-    });
+    if (data.toLowerCase() == "swordfish") {
 
-    // socket.send(data);
+      messages.forEach(function(msg) {
+        socket.send(msg);
+      });
+
+      socket.on('message', function(data) {
+        console.log('messsage received: ' + data);
+        messages.push(data);
+        ws.clients.forEach(function(clientSocket) {
+          clientSocket.send(data);
+        });
+
+        // socket.send(data);
+      });
+
+
+
+    } else {
+      socket.send('Incorrect password.');
+    }
   });
+
 });
